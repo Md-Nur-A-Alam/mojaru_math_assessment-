@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mojaru – অ্যাডমিন লগইন (Admin Login)</title>
+  <link rel="icon" href="https://mojaru.com/_next/static/media/logo.0992b3f2.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="login-page-body">
+
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-brand">
+        <a href="https://mojaru.com/bn" target="_blank" rel="noopener noreferrer">
+          <img src="https://mojaru.com/_next/static/media/Logo.60efc7c2.png" alt="Mojaru Logo" height="38" />
+        </a>
+        <span class="login-pill">অ্যাডমিন সিকিউরিটি</span>
+      </div>
+
+      <div class="login-header">
+        <h2>অ্যাডমিন লগইন</h2>
+        <p>মূল্যায়ন ড্যাশবোর্ডে প্রবেশ করতে আপনার আইডি ও পাসওয়ার্ড দিন</p>
+      </div>
+
+      <form id="adminLoginForm" novalidate>
+        <div class="login-field">
+          <label for="adminEmail">অ্যাডমিন আইডি / Email</label>
+          <div class="login-input-wrap">
+            <svg class="login-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <input type="email" id="adminEmail" autocomplete="username" placeholder="mdnuralam@gmail.com" required />
+          </div>
+        </div>
+
+        <div class="login-field">
+          <label for="adminPassword">পাসওয়ার্ড / Password</label>
+          <div class="login-input-wrap">
+            <svg class="login-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="password" id="adminPassword" autocomplete="current-password" placeholder="••••••••" required />
+            <button type="button" id="btnTogglePass" class="btn-toggle-eye" title="পাসওয়ার্ড দেখুন">
+              <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="loginError" class="login-error" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span id="loginErrorMsg">ইমেইল বা পাসওয়ার্ড ভুল হয়েছে!</span>
+        </div>
+
+        <button type="submit" id="btnLoginSubmit" class="btn-login-submit">
+          <span>লগইন করুন / Sign In</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+
+        <div class="login-foot-hint">
+          <a href="index.html" class="link-back-form">← শিক্ষার্থী মূল্যায়ন ফর্মে ফিরে যান</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
