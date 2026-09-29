@@ -13,71 +13,61 @@ const QUESTIONS = [
     id: "QS-1",
     text: "33 + 77 = ?",
     type: "line",
-    category: "যোগ (Addition)",
-    placeholder: "যেমন: ১১০"
+    category: "যোগ (Addition)"
   },
   {
     id: "QS-2",
     text: "91 − 17 = ?",
     type: "line",
-    category: "বিয়োগ (Subtraction)",
-    placeholder: "যেমন: ৭৪"
+    category: "বিয়োগ (Subtraction)"
   },
   {
     id: "QS-3",
     text: "7 × 8 = ?",
     type: "line",
-    category: "গুণ (Multiplication)",
-    placeholder: "যেমন: ৫৬"
+    category: "গুণ (Multiplication)"
   },
   {
     id: "QS-4",
     text: "একটি জোড় সংখ্যার (Even Number) সাথে আরেকটি জোড় সংখ্যা যোগ করলে যোগফল জোড় হয়। তাহলে একটি বিজোড় সংখ্যার সাথে আরেকটি বিজোড় সংখ্যা যোগ করলে যোগফল কেমন হবে? একটি উদাহরণ দাও।",
     type: "area",
-    category: "যুক্তি ও সংখ্যার ধারণা",
-    placeholder: "যোগফল কেমন হবে এবং একটি উদাহরণ এখানে লেখো..."
+    category: "যুক্তি ও সংখ্যার ধারণা"
   },
   {
     id: "QS-5",
     text: "মৌলিক সংখ্যা (Prime Number) ও যৌগিক সংখ্যা (Composite Number)-এর মধ্যে পার্থক্য কী? একটি করে উদাহরণ দাও।",
     type: "area",
-    category: "মৌলিক ও যৌগিক সংখ্যা",
-    placeholder: "পার্থক্য ও উদাহরণ এখানে বিস্তারিত লেখো..."
+    category: "মৌলিক ও যৌগিক সংখ্যা"
   },
   {
     id: "QS-6",
     text: "কোনো সংখ্যা জোড় (Even) না বিজোড় (Odd), তা কীভাবে সহজে চিনবে?",
     type: "area",
-    category: "সহজ কৌশল (Short Trick)",
-    placeholder: "সংখ্যাটি চেনার সহজ নিয়মটি বুঝিয়ে লেখো..."
+    category: "সহজ কৌশল (Short Trick)"
   },
   {
     id: "QS-7",
     text: "রহিম ও করিম দুই ভাইয়ের বয়সের যোগফল ৩৫ বছর। ৫ বছর পর তাদের বয়সের যোগফল কত হবে?",
     type: "line",
-    category: "বয়স ও গাণিতিক সমস্যা",
-    placeholder: "যেমন: ৪৫ বছর (চাইলে হিসাবও লিখতে পারো)"
+    category: "বয়স ও গাণিতিক সমস্যা"
   },
   {
     id: "QS-8",
     text: "একটি পিজ্জার ৪ ভাগের ১ ভাগ খাওয়া হলো। এটিকে ভগ্নাংশে কীভাবে প্রকাশ করবে? ভগ্নাংশটির লব ও হর কোনটি?",
     type: "area",
-    category: "ভগ্নাংশ (Fractions)",
-    placeholder: "ভগ্নাংশটি লেখো এবং লব ও হর কোনটি উল্লেখ করো..."
+    category: "ভগ্নাংশ (Fractions)"
   },
   {
     id: "QS-9",
     text: "এক বছরে সাধারণত কত দিন থাকে? আর অধিবর্ষ (Leap Year)-এ কত দিন থাকে?",
     type: "line",
-    category: "সময় ও ক্যালেন্ডার",
-    placeholder: "সাধারণ বছর ও অধিবর্ষের দিনসংখ্যা লেখো..."
+    category: "সময় ও ক্যালেন্ডার"
   },
   {
     id: "QS-10",
     text: "তোমার দৈনন্দিন জীবনে গণিত কোথায় কোথায় ব্যবহার হয়? অন্তত ৩টি উদাহরণ দাও।",
     type: "area",
-    category: "বাস্তব জীবনে গণিত",
-    placeholder: "১. ...  ২. ...  ৩. ... তোমার উদাহরণগুলো লেখো"
+    category: "বাস্তব জীবনে গণিত"
   }
 ];
 
@@ -149,7 +139,6 @@ function renderQuestions() {
 
     input.name = q.id;
     input.id = q.id;
-    input.placeholder = q.placeholder || "তোমার উত্তর এখানে লেখো...";
     input.setAttribute("aria-label", `প্রশ্ন ${toBn(i + 1)} এর উত্তর`);
 
     // Event listener for live interaction
