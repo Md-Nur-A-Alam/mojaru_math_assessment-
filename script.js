@@ -243,9 +243,12 @@ form.addEventListener("submit", async (e) => {
 
   const nameInput = $("studentName");
   const rollInput = $("roll");
+  const classInput = $("studentClass");
   const name = nameInput.value.trim();
   const roll = rollInput.value.trim();
-  const date = $("date").value || todayISO();
+  const studentClass = classInput ? classInput.value.trim() : "Class 3";
+  const dateInputVal = $("date").value;
+  const date = dateInputVal || todayISO();
 
   if (!name || !roll) {
     showError("অনুগ্রহ করে শিক্ষার্থীর নাম ও রোল নাম্বার সঠিকভাবে লিখো।");
@@ -293,7 +296,10 @@ form.addEventListener("submit", async (e) => {
   const payload = {
     name,
     roll,
-    date,
+    class: studentClass,
+    studentClass: studentClass,
+    date: date,
+    timestamp: new Date().toISOString(),
     durationSec: Math.round((Date.now() - startedAt) / 1000),
     answers
   };
@@ -307,7 +313,7 @@ form.addEventListener("submit", async (e) => {
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "Unknown server error");
-    showDone(name, roll, QUESTIONS.length - blanks.length);
+    showDone(name, roll, studentClass, date, QUESTIONS.length - blanks.length);
   } catch (err) {
     console.error(err);
     showError("উত্তরপত্র জমা দেওয়া সম্ভব হয়নি। অনুগ্রহ করে ইন্টারনেট সংযোগ পরীক্ষা করে পুনরায় চেষ্টা করো।");
@@ -316,10 +322,12 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-function showDone(name, roll, answeredCount) {
+function showDone(name, roll, studentClass, dateVal, answeredCount) {
   $("doneMsg").textContent = `${name}, তোমার গণিত মূল্যায়ন উত্তরপত্র সফলভাবে মজারু সার্ভারে জমা হয়েছে।`;
   $("statName").textContent = name;
+  if ($("statClass")) $("statClass").textContent = studentClass;
   $("statRoll").textContent = toBn(roll);
+  if ($("statDate")) $("statDate").textContent = dateVal;
   $("statCount").textContent = `${toBn(answeredCount)}/${toBn(QUESTIONS.length)}`;
 
   $("formView").hidden = true;
@@ -329,6 +337,7 @@ function showDone(name, roll, answeredCount) {
 
 $("againBtn").addEventListener("click", () => {
   form.reset();
+  if ($("studentClass")) $("studentClass").value = "Class 3";
   $("date").value = todayISO();
   renderQuestions();
   clearError();

@@ -485,7 +485,7 @@ body {
 
 .info-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
   gap: 16px;
 }
 
@@ -518,7 +518,8 @@ body {
   pointer-events: none;
 }
 
-.input-with-icon input {
+.input-with-icon input,
+.input-with-icon select {
   width: 100%;
   padding: 11px 12px 11px 38px;
   border: 1px solid #d9d0e6;
@@ -530,7 +531,13 @@ body {
   transition: all 0.2s ease;
 }
 
-.input-with-icon input:focus {
+.input-with-icon select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.input-with-icon input:focus,
+.input-with-icon select:focus {
   outline: none;
   border-color: var(--mojaru-purple-light);
   box-shadow: 0 0 0 3px rgba(132, 76, 209, 0.14);

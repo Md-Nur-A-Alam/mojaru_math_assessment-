@@ -146,6 +146,23 @@
             </label>
 
             <label class="field-item">
+              <span class="field-label">শ্রেণি / Class <b class="req">*</b></span>
+              <div class="input-with-icon">
+                <svg class="field-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                  <path d="M6 6h10"></path>
+                  <path d="M6 10h10"></path>
+                </svg>
+                <select id="studentClass" name="studentClass" class="field-select" required>
+                  <option value="Class 3" selected>তৃতীয় শ্রেণি (Class 3)</option>
+                  <option value="Class 4">চতুর্থ শ্রেণি (Class 4)</option>
+                  <option value="Class 5">পঞ্চম শ্রেণি (Class 5)</option>
+                  <option value="Class 2">দ্বিতীয় শ্রেণি (Class 2)</option>
+                </select>
+              </div>
+            </label>
+
+            <label class="field-item">
               <span class="field-label">রোল / Class Roll <b class="req">*</b></span>
               <div class="input-with-icon">
                 <svg class="field-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -228,8 +245,18 @@
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
+            <span class="stat-label">শ্রেণি</span>
+            <strong id="statClass" class="stat-value">-</strong>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
             <span class="stat-label">রোল</span>
             <strong id="statRoll" class="stat-value">-</strong>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-label">তারিখ ও সময়</span>
+            <strong id="statDate" class="stat-value">-</strong>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">
