@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Class 3 – Math Knowledge Assessment | Mojaru</title>
+  <link rel="icon" href="https://play-lh.googleusercontent.com/64AHz5lGb3PCpSj0ZFTKEjFczFVuwrWBOUv_wPW1bDMEexcfYLxAdQEu1C7kNn1HbvoEmeVVFfEOszrmVNJf8KE=w96-h96" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+
+    <header class="brand">
+      <img class="logo" src="https://play-lh.googleusercontent.com/64AHz5lGb3PCpSj0ZFTKEjFczFVuwrWBOUv_wPW1bDMEexcfYLxAdQEu1C7kNn1HbvoEmeVVFfEOszrmVNJf8KE=w192-h192" alt="Mojaru logo" width="56" height="56" />
+      <div>
+        <div class="brand-name">Mojaru</div>
+        <div class="brand-tag">The Best Education Platform in Bangladesh</div>
+      </div>
+    </header>
+
+    <section id="formView">
+      <div class="title-card">
+        <h1>Class 3 – Math Knowledge Assessment</h1>
+        <p>তৃতীয় শ্রেণি – গণিত মূল্যায়ন পরীক্ষা</p>
+      </div>
+
+      <form id="assessmentForm" novalidate>
+        <div class="info-grid">
+          <label class="field">
+            <span>শিক্ষার্থীর নাম / Student Name <b class="req">*</b></span>
+            <input type="text" id="studentName" name="studentName" autocomplete="name" required />
+          </label>
+          <label class="field">
+            <span>রোল / Roll <b class="req">*</b></span>
+            <input type="text" id="roll" name="roll" inputmode="numeric" required />
+          </label>
+          <label class="field">
+            <span>তারিখ / Date</span>
+            <input type="date" id="date" name="date" />
+          </label>
+        </div>
+
+        <h2 class="section-title">অনুশীলনী ও প্রশ্নাবলী <small>(Questions &amp; Answer Spaces)</small></h2>
+
+        <div id="questions"></div>
+
+        <p id="formError" class="error" role="alert" hidden></p>
+
+        <button type="submit" id="submitBtn" class="btn">
+          <span class="btn-label">জমা দাও / Submit</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+    </section>
+
+    <section id="doneView" class="done" hidden>
+      <div class="done-icon">✓</div>
+      <h2>ধন্যবাদ! / Thank you!</h2>
+      <p id="doneMsg">তোমার উত্তর সফলভাবে জমা হয়েছে।</p>
+      <button type="button" id="againBtn" class="btn btn-ghost">আরেকজন শিক্ষার্থীর জন্য / New student</button>
+    </section>
+
+    <footer class="foot">Class 3 Mathematics Assessment · Mojaru</footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
