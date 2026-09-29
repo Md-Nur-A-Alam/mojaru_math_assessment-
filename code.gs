@@ -12,9 +12,9 @@ const RESPONSES_SHEET_NAME = 'Sheet1';
 const EVAL_SHEET_NAME = 'evaluation';
 
 const QUESTION_HEADERS = ['QS-1','QS-2','QS-3','QS-4','QS-5','QS-6','QS-7','QS-8','QS-9','QS-10'];
-const META_HEADERS = ['Timestamp', 'Student Name', 'Class', 'Roll', 'Date', 'Time Taken (sec)'];
+const META_HEADERS = ['Timestamp', 'Student Name', 'Class', 'Phone', 'Date', 'Time Taken (sec)'];
 
-const EVAL_META_HEADERS = ['Row ID', 'Timestamp', 'Student Name', 'Class', 'Roll', 'Total Mark (20)', 'Percentage', 'Status', 'Evaluated At'];
+const EVAL_META_HEADERS = ['Row ID', 'Timestamp', 'Student Name', 'Class', 'Phone', 'Total Mark (20)', 'Percentage', 'Status', 'Evaluated At'];
 const EVAL_QUESTION_HEADERS = ['QS-1 Mark', 'QS-2 Mark', 'QS-3 Mark', 'QS-4 Mark', 'QS-5 Mark', 'QS-6 Mark', 'QS-7 Mark', 'QS-8 Mark', 'QS-9 Mark', 'QS-10 Mark'];
 const EVAL_HEADERS = EVAL_META_HEADERS.concat(EVAL_QUESTION_HEADERS, ['Remarks']);
 
@@ -145,16 +145,18 @@ function doGet(e) {
         });
 
         const keyWithId = String(rowId);
-        const keyWithStudent = String(rowObj['Student Name']) + '_' + String(rowObj['Roll']);
+        const studentPhone = String(rowObj['Phone'] != null ? rowObj['Phone'] : (rowObj['Roll'] != null ? rowObj['Roll'] : ''));
+        const keyWithStudent = String(rowObj['Student Name']) + '_' + studentPhone;
         const evalData = evalMap[keyWithId] || evalMap[keyWithStudent] || null;
 
         submissions.push({
           rowId: rowId,
           timestamp: rowObj['Timestamp'] ? Utilities.formatDate(new Date(rowObj['Timestamp']), Session.getScriptTimeZone() || 'Asia/Dhaka', 'yyyy-MM-dd HH:mm:ss') : '',
-          name: rowObj['Student Name'] || '',
-          class: rowObj['Class'] || 'Class 3',
-          roll: rowObj['Roll'] || '',
-          date: rowObj['Date'] || '',
+          name: String(rowObj['Student Name'] != null ? rowObj['Student Name'] : ''),
+          class: String(rowObj['Class'] != null ? rowObj['Class'] : 'Class 3'),
+          phone: studentPhone,
+          roll: studentPhone,
+          date: String(rowObj['Date'] != null ? rowObj['Date'] : ''),
           durationSec: Number(rowObj['Time Taken (sec)']) || 0,
           answers: answers,
           evaluation: evalData
@@ -196,7 +198,7 @@ function doPost(e) {
       const rowId = body.rowId;
       const name = clean_(body.name);
       const studentClass = clean_(body.class || 'Class 3');
-      const roll = clean_(body.roll);
+      const phone = clean_(body.phone || body.roll);
       const studentTimestamp = clean_(body.timestamp || nowStr);
       const marks = body.marks || {};
       const remarks = clean_(body.remarks || '');
@@ -223,15 +225,16 @@ function doPost(e) {
       // Look for existing evaluation for this student
       if (lastRow > 1) {
         const existingData = evalSheet.getRange(2, 1, lastRow - 1, evalSheet.getLastColumn()).getValues();
+        const phoneColIdx = cols['Phone'] || cols['Roll'];
         for (let i = 0; i < existingData.length; i++) {
           const rId = existingData[i][cols['Row ID'] - 1];
           const rName = existingData[i][cols['Student Name'] - 1];
-          const rRoll = existingData[i][cols['Roll'] - 1];
+          const rPhone = phoneColIdx ? existingData[i][phoneColIdx - 1] : '';
 
           if (rowId && String(rId) === String(rowId)) {
             targetRow = i + 2;
             break;
-          } else if (String(rName) === String(name) && String(rRoll) === String(roll)) {
+          } else if (String(rName) === String(name) && String(rPhone) === String(phone)) {
             targetRow = i + 2;
             break;
           }
@@ -245,7 +248,8 @@ function doPost(e) {
       rowData[cols['Timestamp'] - 1] = studentTimestamp;
       rowData[cols['Student Name'] - 1] = name;
       rowData[cols['Class'] - 1] = studentClass;
-      rowData[cols['Roll'] - 1] = roll;
+      const evalPhoneCol = cols['Phone'] || cols['Roll'];
+      if (evalPhoneCol) rowData[evalPhoneCol - 1] = phone;
       rowData[cols['Total Mark (20)'] - 1] = totalMark;
       rowData[cols['Percentage'] - 1] = percentage;
       rowData[cols['Status'] - 1] = status;
@@ -282,8 +286,8 @@ function doPost(e) {
     // Action 2: Student Assessment Submission
     // -------------------------------------------------------------
     const name = clean_(body.name);
-    const roll = clean_(body.roll);
-    if (!name || !roll) return json_({ ok: false, error: 'Name and roll are required' });
+    const phone = clean_(body.phone || body.roll);
+    if (!name || !phone) return json_({ ok: false, error: 'Name and phone number are required' });
 
     const studentClass = clean_(body.class || body.studentClass || 'Class 3');
     const defaultDateStr = Utilities.formatDate(now, timeZone, 'yyyy-MM-dd HH:mm:ss');
@@ -299,7 +303,8 @@ function doPost(e) {
     row[cols['Timestamp'] - 1] = now;
     row[cols['Student Name'] - 1] = name;
     row[cols['Class'] - 1] = studentClass;
-    row[cols['Roll'] - 1] = roll;
+    const phoneCol = cols['Phone'] || cols['Roll'];
+    if (phoneCol) row[phoneCol - 1] = phone;
     row[cols['Date'] - 1] = date;
     row[cols['Time Taken (sec)'] - 1] = Number(body.durationSec) || '';
 

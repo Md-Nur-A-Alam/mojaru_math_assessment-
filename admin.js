@@ -168,10 +168,10 @@ function renderTable() {
 
   const filtered = submissionsList.filter((s, idx) => {
     s._originalIndex = idx;
-    const nameMatch = (s.name || "").toLowerCase().includes(query);
-    const rollMatch = (s.roll || "").toLowerCase().includes(query);
-    const classMatch = (s.class || "").toLowerCase().includes(query);
-    const matchesQuery = !query || nameMatch || rollMatch || classMatch;
+    const nameStr = String(s.name != null ? s.name : "").toLowerCase();
+    const phoneStr = String(s.phone != null ? s.phone : (s.roll != null ? s.roll : "")).toLowerCase();
+    const classStr = String(s.class != null ? s.class : "").toLowerCase();
+    const matchesQuery = !query || nameStr.includes(query) || phoneStr.includes(query) || classStr.includes(query);
 
     const isEval = Boolean(s.evaluation && (s.evaluation.status?.includes("সম্পন্ন") || s.evaluation.totalMark != null));
     if (currentFilter === "evaluated") return matchesQuery && isEval;
@@ -198,12 +198,14 @@ function renderTable() {
         ? `<span class="badge badge-evaluated">✓ মূল্যায়ন সম্পন্ন (${toBn(totalMark)}/২০)</span>`
         : `<span class="badge badge-pending">⏳ মূল্যায়ন বাকি</span>`;
 
+      const displayPhone = s.phone || s.roll || "-";
+
       return `
         <tr>
           <td>${toBn(i + 1)}</td>
           <td class="student-col">${escapeHtml(s.name || "অজ্ঞাত")}</td>
           <td><span class="badge" style="background:#eef2ff;color:#4f46e5;">${escapeHtml(s.class || "Class 3")}</span></td>
-          <td><strong>${toBn(s.roll || "-")}</strong></td>
+          <td><strong>${toBn(displayPhone)}</strong></td>
           <td>${s.timestamp || s.date || "-"}</td>
           <td>${statusBadge}</td>
           <td>
@@ -225,7 +227,8 @@ function openEvaluationModal(index) {
 
   document.getElementById("evalStudentName").textContent = s.name || "শিক্ষার্থী";
   document.getElementById("evalStudentClass").textContent = s.class || "Class 3";
-  document.getElementById("evalStudentRoll").textContent = toBn(s.roll || "-");
+  const phoneEl = document.getElementById("evalStudentPhone") || document.getElementById("evalStudentRoll");
+  if (phoneEl) phoneEl.textContent = toBn(s.phone || s.roll || "-");
   document.getElementById("evalStudentTime").textContent = s.timestamp || s.date || "-";
 
   const existingMarks = (s.evaluation && s.evaluation.marks) || {};
@@ -358,7 +361,8 @@ async function saveEvaluation() {
     rowId: s.rowId,
     name: s.name,
     class: s.class,
-    roll: s.roll,
+    phone: s.phone || s.roll,
+    roll: s.phone || s.roll,
     timestamp: s.timestamp,
     marks: marks,
     remarks: remarks

@@ -231,17 +231,17 @@ form.addEventListener("submit", async (e) => {
   clearError();
 
   const nameInput = $("studentName");
-  const rollInput = $("roll");
+  const phoneInput = $("phone") || $("roll");
   const classInput = $("studentClass");
   const name = nameInput.value.trim();
-  const roll = rollInput.value.trim();
+  const phone = phoneInput ? phoneInput.value.trim() : "";
   const studentClass = classInput ? classInput.value.trim() : "Class 3";
   const dateInputVal = $("date").value;
   const date = dateInputVal || todayISO();
 
-  if (!name || !roll) {
-    showError("অনুগ্রহ করে শিক্ষার্থীর নাম ও রোল নাম্বার সঠিকভাবে লিখো।");
-    (name ? rollInput : nameInput).focus();
+  if (!name || !phone) {
+    showError("অনুগ্রহ করে শিক্ষার্থীর নাম ও ফোন নম্বর সঠিকভাবে লিখো।");
+    (name ? phoneInput : nameInput).focus();
     return;
   }
 
@@ -284,7 +284,8 @@ form.addEventListener("submit", async (e) => {
 
   const payload = {
     name,
-    roll,
+    phone,
+    roll: phone, // kept for backward compatibility with existing sheet headers
     class: studentClass,
     studentClass: studentClass,
     date: date,
@@ -305,7 +306,7 @@ form.addEventListener("submit", async (e) => {
 
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "Unknown server error");
-    showDone(name, roll, studentClass, date, QUESTIONS.length - blanks.length);
+    showDone(name, phone, studentClass, date, QUESTIONS.length - blanks.length);
   } catch (err) {
     console.error("Submission error:", err);
     showError("উত্তরপত্র জমা দেওয়া সম্ভব হয়নি। (Apps Script Deploy-এ 'Who has access' কে 'Anyone' দিয়ে নতুন Version Deploy করুন)");
@@ -314,11 +315,12 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-function showDone(name, roll, studentClass, dateVal, answeredCount) {
+function showDone(name, phone, studentClass, dateVal, answeredCount) {
   $("doneMsg").textContent = `${name}, তোমার গণিত মূল্যায়ন উত্তরপত্র সফলভাবে মজারু সার্ভারে জমা হয়েছে।`;
   $("statName").textContent = name;
   if ($("statClass")) $("statClass").textContent = studentClass;
-  $("statRoll").textContent = toBn(roll);
+  if ($("statPhone")) $("statPhone").textContent = toBn(phone);
+  if ($("statRoll")) $("statRoll").textContent = toBn(phone);
   if ($("statDate")) $("statDate").textContent = dateVal;
   $("statCount").textContent = `${toBn(answeredCount)}/${toBn(QUESTIONS.length)}`;
 
