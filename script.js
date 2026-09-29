@@ -308,15 +308,18 @@ form.addEventListener("submit", async (e) => {
   try {
     const res = await fetch(WEB_APP_URL, {
       method: "POST",
+      mode: "cors",
+      redirect: "follow",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload)
     });
+
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "Unknown server error");
     showDone(name, roll, studentClass, date, QUESTIONS.length - blanks.length);
   } catch (err) {
-    console.error(err);
-    showError("উত্তরপত্র জমা দেওয়া সম্ভব হয়নি। অনুগ্রহ করে ইন্টারনেট সংযোগ পরীক্ষা করে পুনরায় চেষ্টা করো।");
+    console.error("Submission error:", err);
+    showError("উত্তরপত্র জমা দেওয়া সম্ভব হয়নি। (Apps Script Deploy-এ 'Who has access' কে 'Anyone' দিয়ে নতুন Version Deploy করুন)");
   } finally {
     setLoading(false);
   }
